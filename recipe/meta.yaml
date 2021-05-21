@@ -15,11 +15,12 @@ build:
 
 requirements:
   host:
-    - python
+    - python >=3.6
     - pip
   run:
-    - python
+    - python >=3.6
     - colorama  # [win]
+    - importlib-metadata  #[py<38]
 
 test:
   imports:
