@@ -17,6 +17,8 @@ requirements:
   host:
     - python >=3.6
     - pip
+    - setuptools
+    - wheel
   run:
     - python >=3.6
     - colorama  # [win]
@@ -25,6 +27,12 @@ requirements:
 test:
   imports:
     - click
+  requires:
+    - pip
+    - python <3.10
+  commands:
+    # temporarily skipping pip check on win and pypy build because of bizarre tqdm issue
+    - pip check  # [not (win and python_impl == 'pypy')]
 
 about:
   home: https://palletsprojects.com/p/click
