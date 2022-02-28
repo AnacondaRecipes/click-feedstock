@@ -19,7 +19,7 @@ requirements:
     - python
     - pip
     - setuptools
-    - wheels
+    - wheel
   run:
     - python
     - colorama  # [win]
