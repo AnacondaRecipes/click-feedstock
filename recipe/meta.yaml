@@ -1,5 +1,5 @@
 {% set name = "click" %}
-{% set version = "8.1.7" %}
+{% set version = "8.1.8" %}
 
 package:
   name: {{ name|lower }}
@@ -7,38 +7,43 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de
+  sha256: ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a
 
 build:
   number: 0
-  skip: True  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: True  # [py<37]
 
 requirements:
   host:
     - python
     - pip
-    - setuptools
-    - wheel
+    - flit-core <4
   run:
     - python
     - colorama  # [win]
     - importlib-metadata  # [py<38]
 
 test:
+  source_files:
+    - tests
+    - pyproject.toml
+    - docs
   imports:
     - click
-  requires:
-    - pip
   commands:
     - pip check
+    - pytest -v tests
+  requires:
+    - pip
+    - pytest
 
 about:
   home: https://palletsprojects.com/p/click/
-  license: BSD-3-Clause
-  license_file: LICENSE.rst
-  license_family: BSD
   summary: Python composable command line interface toolkit
+  license: BSD-3-Clause
+  license_file: LICENSE.txt
+  license_family: BSD
   description: |
     Click is a Python package for creating beautiful command line interfaces in a composable way 
     with as little code as necessary. It's the "Command Line Interface Creation Kit".
