@@ -1,5 +1,5 @@
 {% set name = "click" %}
-{% set version = "8.1.8" %}
+{% set version = "8.2.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a
+  sha256: 27c491cc05d968d271d5a1db13e3b5a184636d9d930f148c50b038f0d0646202
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: True  # [py<37]
+  skip: True  # [py<310]
 
 requirements:
   host:
@@ -22,7 +22,6 @@ requirements:
   run:
     - python
     - colorama  # [win]
-    - importlib-metadata  # [py<38]
 
 test:
   source_files:
@@ -41,7 +40,7 @@ test:
     - pytest
 
 about:
-  home: https://palletsprojects.com/p/click/
+  home: https://palletsprojects.com/p/click
   summary: Python composable command line interface toolkit
   license: BSD-3-Clause
   license_file: LICENSE.txt
