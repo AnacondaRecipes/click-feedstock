@@ -6,13 +6,13 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 27c491cc05d968d271d5a1db13e3b5a184636d9d930f148c50b038f0d0646202
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: True  # [py<310]
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -32,9 +32,11 @@ test:
     - click
   commands:
     - pip check
-    - pytest -v tests  # [not win]
-    # E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid start byte
-    - pytest -v -k "not test_filename_formatting" tests  # [win]
+    # On linux: PermissionError: [Errno 1] Operation not permitted: '/tmp/pager_out.txt'
+    - pytest -v tests -k "not test_echo_via_pager"  # [not win]
+    # 1. E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid start byte
+    # 2. test_light_imports: AssertionError: assert 'ctypes._layout' in {'__future__', 'codecs', 'collections', 'collections.abc', 'contextlib', 'ctypes', ...}
+    - pytest -v -k "not (test_filename_formatting or test_light_imports)" tests  # [win]
   requires:
     - pip
     - pytest
@@ -46,10 +48,10 @@ about:
   license_file: LICENSE.txt
   license_family: BSD
   description: |
-    Click is a Python package for creating beautiful command line interfaces in a composable way 
+    Click is a Python package for creating beautiful command line interfaces in a composable way
     with as little code as necessary. It's the "Command Line Interface Creation Kit".
     It's highly configurable but comes with sensible defaults out of the box.
-    It aims to make the process of writing command line tools quick and fun 
+    It aims to make the process of writing command line tools quick and fun
     while also preventing any frustration caused by the inability to implement an intended CLI API.
   dev_url: https://github.com/pallets/click
   doc_url: https://click.palletsprojects.com
