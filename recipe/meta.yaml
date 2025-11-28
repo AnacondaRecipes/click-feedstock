@@ -32,7 +32,8 @@ test:
     - click
   commands:
     - pip check
-    - pytest -v tests  # [not win]
+    # On linux: PermissionError: [Errno 1] Operation not permitted: '/tmp/pager_out.txt'
+    - pytest -v tests -k "not test_echo_via_pager"  # [not win]
     # 1. E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid start byte
     # 2. test_light_imports: AssertionError: assert 'ctypes._layout' in {'__future__', 'codecs', 'collections', 'collections.abc', 'contextlib', 'ctypes', ...}
     - pytest -v -k "not (test_filename_formatting or test_light_imports)" tests  # [win]
