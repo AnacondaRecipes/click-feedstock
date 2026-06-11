@@ -1,16 +1,16 @@
 {% set name = "click" %}
-{% set version = "8.2.1" %}
+{% set version = "8.4.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 27c491cc05d968d271d5a1db13e3b5a184636d9d930f148c50b038f0d0646202
+  sha256: 918b5633eddf6b41c32d4f454bf0de810065c74e3f7dbf8ee5452f8be88d3e96
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: true  # [py<310]
 
