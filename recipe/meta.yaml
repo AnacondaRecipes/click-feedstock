@@ -10,7 +10,7 @@ source:
   sha256: ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: True  # [py<37]
 
@@ -35,7 +35,9 @@ test:
     - pip check
     - pytest -v tests  # [not win]
     # E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid start byte
-    - pytest -v -k "not test_filename_formatting" tests  # [win]
+    # E   AssertionError: assert '012345\r\n' == '012345\n'
+    # E   AssertionError: assert 'ctypes._layout' in {'codecs', 'collections', ...} - Python 3.14 ctypes change
+    - pytest -v -k "not (test_filename_formatting or test_echo_via_pager or test_light_imports or test_light_imports)" tests  # [win]
   requires:
     - pip
     - pytest
