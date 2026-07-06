@@ -36,7 +36,8 @@ test:
     - pytest -v tests  # [not win]
     # E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 3: invalid start byte
     # E   AssertionError: assert '012345\r\n' == '012345\n'
-    - pytest -v -k "not (test_filename_formatting or test_echo_via_pager)" tests  # [win]
+    # E   AssertionError: assert 'ctypes._layout' in {'codecs', 'collections', ...} - Python 3.14 ctypes change
+    - pytest -v -k "not (test_filename_formatting or test_echo_via_pager or test_light_imports or test_light_imports)" tests  # [win]
   requires:
     - pip
     - pytest
